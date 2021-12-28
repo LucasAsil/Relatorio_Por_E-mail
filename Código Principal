@@ -1,0 +1,64 @@
+import pandas as pd
+import smtplib
+import email.message
+
+# importar base de dados
+tabela_vendas = pd.read_excel("Vendas.xlsx")
+
+# visualizar a base de dados
+pd.set_option("display.max_columns", None)
+#print(tabela_vendas)
+
+# faturamento por loja
+faturamento = tabela_vendas[["ID Loja", "Valor Final"]].groupby("ID Loja").sum()
+#print(faturamento)
+
+# quantidade de produtos vendidos por loja
+quantidade_loja = tabela_vendas[["ID Loja", "Quantidade"]].groupby("ID Loja").sum()
+print(quantidade_loja)
+
+# ‘ticket’ médio por produto em cada loja
+print("-"*50)
+ticket_medio = (faturamento["Valor Final"] / quantidade_loja["Quantidade"]).to_frame()
+ticket_medio = ticket_medio.rename(columns={0: "Ticket Médio "})
+print(ticket_medio)
+
+# enviar um endereço eletrônico com o relatório
+def enviar_email():
+    corpo_email = f'''
+    Prezados,
+    
+    Segue o Relatório de vendas por cada loja.
+    
+    Faturamento:
+    
+    {faturamento.to_html(formatters={"Valor Final": "R${:,.2f}".format})}
+    
+    Quantidade Vendida:
+    {quantidade_loja.to_html()}
+    
+    Ticket Médio por Produto em cada Loja:
+    {ticket_medio.to_html(formatters={"Ticket Médio": "R${:,.2f}".format})}
+    
+    Qualquer dúvida estou a disposição.
+    
+    att..
+    Lucas
+    '''
+
+    msg = email.message.Message()
+    msg["Subject"] = "Relatório de vendas por Loja"
+    msg["From"] = "Remetente" # gmail do remetente
+    msg["To"] = "Destinatário"  # gmail do destinatário
+    senha = "senha" # senha do remetente / é nescessario para o login da conta
+    msg.add_header("Content-Type", "text/html")
+    msg.set_payload(corpo_email)
+
+    s = smtplib.SMTP("smtp.gmail.com: 587")
+    s.starttls()
+    s.login(msg["From"], senha)
+    s.sendmail(msg["To"], [msg["To"]], msg.as_string().encode("utf-8"))
+    print("Email enviado")
+
+
+enviar_email()
