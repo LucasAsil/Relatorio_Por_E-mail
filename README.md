@@ -4,6 +4,7 @@
 Elaborei esse código através de um minicurso do canal “Hashtag programação”, onde usei Python e as bibliotecas(Pandas, smtplib e email.message)
 
 Comecei importando um arquivo .xlsx(Excel). 
+
 ![importando](https://user-images.githubusercontent.com/68728828/147603592-64efb172-969f-4959-be83-b3dbd27fe6e6.jpg)
 
 Então calculei o faturamento das lojas, quantidade vendidas por ambas e a média das vendas. 
