@@ -1,2 +1,10 @@
 # Relatorio_Por_E-mail
 Tratando de dados Excel e enviando por E-mail automaticamente
+
+Elaborei esse código através de um minicurso do canal “Hashtag programação”, onde usei Python e as bibliotecas(Pandas, smtplib e email.message)
+
+Comecei importando um arquivo .xlsx(Excel). 
+
+Então calculei o faturamento das lojas, quantidade vendidas por ambas e a média das vendas. 
+
+Depois precisei mandar um relatório formatado por E-mail. Foi meio complicado de inicio, pois o primeiro método que vi usava o outlook, mas como é um programa pago do pacote office não tinha acesso. Mas então através do mesmo canal achei uma função que usava o Gmail.
